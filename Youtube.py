@@ -5,7 +5,7 @@ import pandas as pd
 import streamlit as st
 
 
-#API key connection
+
 
 def Api_connect():
     Api_Id="AIzaSyBI4RhSBYAuyHDu06ZyeGgrfIgvWOvg_ok"
@@ -20,7 +20,7 @@ def Api_connect():
 youtube=Api_connect()
 
 
-#get channels information
+
 def get_channel_info(channel_id):
     request=youtube.channels().list(
                     part="snippet,ContentDetails,statistics",
@@ -38,7 +38,7 @@ def get_channel_info(channel_id):
                 Playlist_Id=i["contentDetails"]["relatedPlaylists"]["uploads"])
     return data
 
-#get video ids
+
 def get_videos_ids(channel_id):
     video_ids=[]
     response=youtube.channels().list(id=channel_id,
@@ -61,7 +61,7 @@ def get_videos_ids(channel_id):
             break
     return video_ids
 
-#get video information
+
 def get_video_info(video_ids):
     video_data=[]
     for video_id in video_ids:
@@ -92,7 +92,7 @@ def get_video_info(video_ids):
     return video_data
 
 
-#get comment information
+
 def get_comment_info(video_ids):
     Comment_data=[]
     try:
@@ -117,7 +117,7 @@ def get_comment_info(video_ids):
         pass
     return Comment_data
 
-#get_playlist_details
+
 
 def get_playlist_details(channel_id):
         next_page_token=None
@@ -146,7 +146,7 @@ def get_playlist_details(channel_id):
         return All_data
 
 
-#upload to mongoDB
+
 
 client=pymongo.MongoClient("mongodb+srv://safiqur_rahman:safiqsafiq@vignesh.vrsd7ro.mongodb.net/?retryWrites=true&w=majority")
 db=client["Youtube_data"]
@@ -165,7 +165,7 @@ def channel_details(channel_id):
     return "upload completed successfully"
 
 
-#Table creation for channels,playlists,videos,comments
+
 def channels_table(channel_name_s):
     mydb=mysql.connect(host="localhost",
                         user="root",
@@ -188,7 +188,7 @@ def channels_table(channel_name_s):
     except:
         print("Channels table already created")
 
-    #fetching all datas
+
     query_1= "SELECT * FROM channels"
     cursor.execute(query_1)
     table= cursor.fetchall()
@@ -477,7 +477,7 @@ def show_comments_table():
 
     return df3
 
-#streamlit part
+
 
 
 st.title(":red[YOUTUBE DATA HAVERSTING AND WAREHOUSING]")
@@ -499,7 +499,6 @@ if st.button("collect and store data"):
         insert=channel_details(channel_id)
         st.success(insert)
 
-#New code
         
 all_channels= []
 coll1=db["channel_details"]
@@ -526,7 +525,7 @@ elif show_table=="VIDEOS":
 elif show_table=="COMMENTS":
     show_comments_table()
 
-#SQL Connection
+
 
 mydb=mysql.connect(host="localhost",
                     user="postgres",
