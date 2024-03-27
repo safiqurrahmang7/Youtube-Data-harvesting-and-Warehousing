@@ -495,7 +495,7 @@ custom_css = """
 
 
 st.markdown(custom_css, unsafe_allow_html=True)
-st.markdown('<div class="title-wrapper">YOUTUBE DATA HARVESTING AND WAREHOUSING</div>', unsafe_allow_html=True)
+st.markdown('<div class="title-wrapper"><b>YOUTUBE DATA HARVESTING AND WAREHOUSING</b></div>', unsafe_allow_html=True)
 
 
 channel_id=st.text_input("Enter the channel ID")
