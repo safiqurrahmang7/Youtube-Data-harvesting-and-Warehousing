@@ -4,9 +4,6 @@ import psycopg2
 import pandas as pd
 import streamlit as st
 
-
-
-
 def Api_connect():
     Api_Id="AIzaSyC7uiKclPszYlB29VyJHjz-jC8rOSHDDIs"
 
@@ -18,8 +15,6 @@ def Api_connect():
     return youtube
 
 youtube=Api_connect()
-
-
 
 def get_channel_info(channel_id):
     request=youtube.channels().list(
@@ -481,32 +476,23 @@ def show_comments_table():
 
 
 
-custom_css = """
-<style>
-.title-wrapper {
-    position: fixed;
-    top: 50px;
-    left: 20px;
-    color: red; /* Change color as needed */
-    font-size: 24px; /* Adjust font size as needed */
-}
-</style>
-"""
 
 
-st.markdown(custom_css, unsafe_allow_html=True)
-st.markdown('<div class="title-wrapper"><b>YOUTUBE DATA HARVESTING AND WAREHOUSING</b></div>', unsafe_allow_html=True)
+
+st.title("YOUTUBE DATA HARVESTING AND WAREHOUSING")
 
 
 channel_id=st.text_input("Enter the channel ID")
 
 if st.button("collect and store data"):
     ch_ids=[]
+    
     db=client["Youtube_data"]
     coll1=db["channel_details"]
     for ch_data in coll1.find({},{"_id":0,"channel_information":1}):
         ch_ids.append(ch_data["channel_information"]["Channel_Id"])
-
+        
+   
     if channel_id in ch_ids:
         st.success("Channel Details of the given channel id already exists")
 
@@ -518,7 +504,7 @@ if st.button("collect and store data"):
         
 all_channels= []
 coll1=db["channel_details"]
-for ch_data in coll1.find({},{"_id":0,"channel_information":1}):
+for ch_data in coll1.find({},{"_id":0,"channel_information":2}):
     all_channels.append(ch_data["channel_information"]["Channel_Name"])
         
 unique_channel= st.selectbox("Select the Channel",all_channels)
@@ -527,18 +513,44 @@ if st.button("Migrate to Sql"):
     Table=tables(unique_channel)
     st.success(Table)
 
-show_table=st.radio("SELECT THE TABLE FOR VIEW",("CHANNELS","PLAYLISTS","VIDEOS","COMMENTS"))
+show_table=st.radio("SELECT TO VIEW JSON AND TABLE",("CHANNELS","PLAYLISTS","VIDEOS","COMMENTS"))
 
 if show_table=="CHANNELS":
+    ch_details = []
+    db=client["Youtube_data"]
+    coll1=db["channel_details"]
+    for ch_data in coll1.find({},{"_id":0,"channel_information":1}):
+        ch_details.append(ch_data["channel_information"])
+
+    st.json(ch_details)
     show_channels_table()
 
 elif show_table=="PLAYLISTS":
+    ch_details = []
+    db=client["Youtube_data"]
+    coll1=db["channel_details"]
+    for ch_data in coll1.find({},{"_id":0,"playlist_information":1}).limit(2):
+        ch_details.append(ch_data["playlist_information"])
+
+    st.json(ch_details)
     show_playlists_table()
 
 elif show_table=="VIDEOS":
+    ch_details = []
+    db=client["Youtube_data"]
+    coll1=db["channel_details"]
+    for ch_data in coll1.find({},{"_id":0,"video_information":1}).limit(2):
+        ch_details.append(ch_data["video_information"])
+    st.json(ch_details)
     show_videos_table()
 
 elif show_table=="COMMENTS":
+    ch_details = []
+    db=client["Youtube_data"]
+    coll1=db["channel_details"]
+    for ch_data in coll1.find({},{"_id":0,"comment_information":1}).limit(2):
+        ch_details.append(ch_data["comment_information"])
+    st.json(ch_details)
     show_comments_table()
 
 
