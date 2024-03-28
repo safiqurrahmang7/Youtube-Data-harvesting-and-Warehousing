@@ -2,7 +2,7 @@
 
 **Project Details:**
 - YouTube Channel: [Watch full details about this project](https://www.youtube.com/watch?v=8SJ6icudwss&t=39s)
-- LinkedIn: [Safiqur's LinkedIn Profile](www.linkedin.com/in/safiqurrahman)
+- LinkedIn: [Safiqur's LinkedIn Profile](https://www.linkedin.com/in/safiqurrahman)
 
 **Project Overview:**
 YouTube Data Harvesting and Warehousing is a project aimed at providing users with the capability to access and analyze data from various YouTube channels. The project utilizes SQL, MongoDB, and Streamlit to develop a user-friendly application allowing users to retrieve, save, and query YouTube channel and video data.
