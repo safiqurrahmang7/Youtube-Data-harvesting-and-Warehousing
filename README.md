@@ -1,7 +1,7 @@
-# Guvi_CAPSTON_Project_YOUTUBE-DATA-HARVESTING-AND-WAREHOUSING
+# Capstone-Project-YOUTUBE-DATA-HARVESTING-AND-WAREHOUSING
 
 **Project Details:**
-- YouTube Channel: [Watch full details about this project]()
+- YouTube Channel: [Watch full details about this project](https://www.youtube.com/watch?v=8SJ6icudwss&t=39s)
 - LinkedIn: [Safiqur's LinkedIn Profile](www.linkedin.com/in/safiqurrahman)
 
 **Project Overview:**
