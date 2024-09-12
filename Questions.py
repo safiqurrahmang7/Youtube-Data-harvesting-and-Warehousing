@@ -1,7 +1,8 @@
 import streamlit as st
 import psycopg2
 import pandas as pd
-
+import Tables as tbl
+import mongoharvest as mh
 
 st.title("YOUTUBE DATA HARVESTING AND WAREHOUSING")
 
@@ -11,7 +12,7 @@ channel_id=st.text_input("Enter the channel ID")
 if st.button("collect and store data"):
     ch_ids=[]
     
-    db=client["Youtube_data"]
+    db=mh.client["Youtube_data"]
     coll1=db["channel_details"]
     for ch_data in coll1.find({},{"_id":0,"channel_information":1}):
         ch_ids.append(ch_data["channel_information"]["Channel_Id"])
@@ -21,7 +22,7 @@ if st.button("collect and store data"):
         st.success("Channel Details of the given channel id already exists")
 
     else:
-        insert=channel_details(channel_id)
+        insert=mh.channel_details(channel_id)
         st.success(insert)
 
 
@@ -34,48 +35,48 @@ for ch_data in coll1.find({},{"_id":0,"channel_information":2}):
 unique_channel= st.selectbox("Select the Channel",all_channels)
 
 if st.button("Migrate to Sql"):
-    Table=tables(unique_channel)
+    Table=tbl.tables(unique_channel)
     st.success(Table)
 
 show_table=st.radio("SELECT TO VIEW JSON AND TABLE",("CHANNELS","PLAYLISTS","VIDEOS","COMMENTS"))
 
 if show_table=="CHANNELS":
     ch_details = []
-    db=client["Youtube_data"]
+    db=mh.client["Youtube_data"]
     coll1=db["channel_details"]
     for ch_data in coll1.find({},{"_id":0,"channel_information":1}):
         ch_details.append(ch_data["channel_information"])
 
     st.json(ch_details)
-    show_channels_table()
+    tbl.show_channels_table()
 
 elif show_table=="PLAYLISTS":
     ch_details = []
-    db=client["Youtube_data"]
+    db=mh.client["Youtube_data"]
     coll1=db["channel_details"]
     for ch_data in coll1.find({},{"_id":0,"playlist_information":1}).limit(2):
         ch_details.append(ch_data["playlist_information"])
 
     st.json(ch_details)
-    show_playlists_table()
+    tbl.show_playlists_table()
 
 elif show_table=="VIDEOS":
     ch_details = []
-    db=client["Youtube_data"]
+    db=mh.client["Youtube_data"]
     coll1=db["channel_details"]
     for ch_data in coll1.find({},{"_id":0,"video_information":1}).limit(2):
         ch_details.append(ch_data["video_information"])
     st.json(ch_details)
-    show_videos_table()
+    tbl.show_videos_table()
 
 elif show_table=="COMMENTS":
     ch_details = []
-    db=client["Youtube_data"]
+    db=mh.client["Youtube_data"]
     coll1=db["channel_details"]
     for ch_data in coll1.find({},{"_id":0,"comment_information":1}).limit(2):
         ch_details.append(ch_data["comment_information"])
     st.json(ch_details)
-    show_comments_table()
+    tbl.show_comments_table()
 
 mydb=psycopg2.connect(host="localhost",
                     user="postgres",
